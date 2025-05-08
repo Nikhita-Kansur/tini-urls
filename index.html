@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tini URLs</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 30px;
+      text-align: center;
+    }
+    h1, h2 {
+      margin: 10px 0;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tini URLs</h1>
+  <h2>Tini URL Shortener</h2>
+
+  <div>
+    <input type="text" id="longUrl" placeholder="Paste long URL here" />
+    <button onclick="shortenUrl()">Shorten</button>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    async function shortenUrl() {
+      const longUrl = document.getElementById('longUrl').value;
+      const response = await fetch('http://localhost:3000/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ originalUrl: longUrl })
+      });
+
+      const data = await response.json();
+      document.getElementById('result').innerHTML =
+        `Short URL: <a href="${data.shortUrl}" target="_blank">${data.shortUrl}</a>`;
+    }
+  </script>
+</body>
+</html>
